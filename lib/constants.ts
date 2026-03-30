@@ -15,7 +15,10 @@
 
 export const COMMUNITY_TWEET_URLS: readonly string[] = [
   "https://x.com/jaymehoffman/status/2038667078136115487",
-  "https://x.com/Riyvir/status/2038093450139279426"
+  "https://x.com/Riyvir/status/2038093450139279426",
+  "https://x.com/eduardo_sonnino/status/2038574988194902472",
+  "https://x.com/solarise_webdev/status/2038330971397697895"
+  // ← BOT_INJECT_ANCHOR (do not remove)
 ];
 
 // ── GitHub PR config ─────────────────────────────────────────────────────────

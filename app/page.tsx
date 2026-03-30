@@ -52,7 +52,7 @@ function extractTweetId(url: string): string | null {
 // ─────────────────────────────────────────────────────────────────────────────
 function MeasuredMasthead({ text, containerRef }: MeasuredMastheadProps) {
   const [fontSize, setFontSize] = useState(80);
-  const [ready, setReady]       = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -62,12 +62,12 @@ function MeasuredMasthead({ text, containerRef }: MeasuredMastheadProps) {
 
     let lo = 28, hi = 140, best = lo;
     while (lo <= hi) {
-      const mid  = Math.floor((lo + hi) / 2);
+      const mid = Math.floor((lo + hi) / 2);
       const font = `700 ${mid}px "Cinzel Decorative", serif`;
       const prep: PreparedText = prepare(text, font);
       const { lineCount } = layout(prep, width, mid * 1.1);
       if (lineCount <= 1) { best = mid; lo = mid + 1; }
-      else                { hi  = mid - 1; }
+      else { hi = mid - 1; }
     }
     setFontSize(best);
     setReady(true);
@@ -100,7 +100,7 @@ function BalancedPull({ text, maxWidth }: { text: string; maxWidth: number }) {
       let count = 0;
       walkLineRanges(prepared, mid, () => { count++; });
       if (count <= 3) { best = mid; hi = mid; }
-      else            { lo = mid; }
+      else { lo = mid; }
     }
     setW(best);
   }, [text, maxWidth]);
@@ -118,7 +118,7 @@ function BalancedPull({ text, maxWidth }: { text: string; maxWidth: number }) {
 // preventing layout shift as the number ticks up.
 // ─────────────────────────────────────────────────────────────────────────────
 function MeasuredCounter({ target }: { target: number }) {
-  const [val,      setVal]      = useState(0);
+  const [val, setVal] = useState(0);
   const [minWidth, setMinWidth] = useState(0);
 
   useEffect(() => {
@@ -183,9 +183,9 @@ function XLogo({ size = 18 }: { size?: number }) {
 
 // ─── Client-side tweet fetcher ────────────────────────────────────────────────
 function useTweetData(id: string | null) {
-  const [data,    setData]    = useState<Tweet | null>(null);
+  const [data, setData] = useState<Tweet | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (!id) { setData(null); return; }
@@ -252,11 +252,11 @@ function TweetPreview({ url }: PreviewProps) {
 
 // ─── GitHub PR Submit ─────────────────────────────────────────────────────────
 async function submitViaGitHubPR(tweetUrl: string): Promise<void> {
-  const TOKEN  = process.env.NEXT_PUBLIC_GITHUB_TOKEN ?? "";
-  const OWNER  = "subhadeeproy3902";
-  const REPO   = process.env.NEXT_PUBLIC_GITHUB_REPO ?? "pretextwall";
-  const FILE   = "lib/constants.ts";
-  const BASE   = "main";
+  const TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN ?? "";
+  const OWNER = "subhadeeproy3902";
+  const REPO = process.env.NEXT_PUBLIC_GITHUB_REPO ?? "pretextwall";
+  const FILE = "lib/constants.ts";
+  const BASE = "main";
   const ANCHOR = "// ← BOT_INJECT_ANCHOR (do not remove)";
 
   const h: HeadersInit = {
@@ -265,20 +265,20 @@ async function submitViaGitHubPR(tweetUrl: string): Promise<void> {
     "Content-Type": "application/json",
   };
 
-  const fileRes  = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, { headers: h });
+  const fileRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, { headers: h });
   if (!fileRes.ok) throw new Error("Cannot read constants.ts");
   const fileData = await fileRes.json() as { content: string; sha: string };
-  const current  = atob(fileData.content.replace(/\n/g, ""));
+  const current = atob(fileData.content.replace(/\n/g, ""));
   if (!current.includes(ANCHOR)) throw new Error("BOT_INJECT_ANCHOR not found");
 
-  const updated  = current.replace(ANCHOR, `${ANCHOR}\n  "${tweetUrl}",`);
+  const updated = current.replace(ANCHOR, `${ANCHOR}\n  "${tweetUrl}",`);
 
-  const refRes   = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/ref/heads/${BASE}`, { headers: h });
+  const refRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/ref/heads/${BASE}`, { headers: h });
   if (!refRes.ok) throw new Error("Cannot get base ref");
-  const baseSha  = (await refRes.json() as { object: { sha: string } }).object.sha;
+  const baseSha = (await refRes.json() as { object: { sha: string } }).object.sha;
 
-  const branch   = `add-tweet-${Date.now()}`;
-  const brRes    = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/refs`, {
+  const branch = `add-tweet-${Date.now()}`;
+  const brRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/refs`, {
     method: "POST", headers: h,
     body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: baseSha }),
   });
@@ -307,17 +307,17 @@ async function submitViaGitHubPR(tweetUrl: string): Promise<void> {
 
 // ─── Submit Modal ─────────────────────────────────────────────────────────────
 function SubmitModal({ isOpen, onClose, onSubmit }: SubmitModalProps) {
-  const [url,        setUrl]        = useState("");
+  const [url, setUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [submitted,  setSubmitted]  = useState(false);
-  const [error,      setError]      = useState("");
-  const inputRef                    = useRef<HTMLInputElement>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Pretext Use 4: pre-measure button label width so it never reflows
   const [btnW, setBtnW] = useState(180);
   useEffect(() => {
     const label = submitting ? "Filing PR…" : "Submit to the Wall →";
-    const seg   = prepareWithSegments(label, "600 13px 'Special Elite', monospace");
+    const seg = prepareWithSegments(label, "600 13px 'Special Elite', monospace");
     let w = 0;
     walkLineRanges(seg, 500, (l) => { if (l.width > w) w = l.width; });
     setBtnW(Math.ceil(w) + 40);
@@ -338,7 +338,7 @@ function SubmitModal({ isOpen, onClose, onSubmit }: SubmitModalProps) {
   const handleSubmit = useCallback(async () => {
     if (!valid) { setError("Paste a valid X post URL (x.com/…/status/…)"); return; }
     setError(""); setSubmitting(true);
-    try   { await onSubmit(url); setSubmitted(true); }
+    try { await onSubmit(url); setSubmitted(true); }
     catch (e: unknown) { setError(e instanceof Error ? e.message : "Submission failed"); }
     finally { setSubmitting(false); }
   }, [url, valid, onSubmit]);
@@ -439,7 +439,7 @@ function SubmitModal({ isOpen, onClose, onSubmit }: SubmitModalProps) {
 // ─── Marquee Ticker ───────────────────────────────────────────────────────────
 function Ticker() {
   const chunk = "NO DOM REFLOW  ·  @chenglou/pretext  ·  SUB-MILLISECOND LAYOUTS  ·  FULL I18N  ·  PURE JS  ·  OPEN SOURCE  ·  ";
-  const text  = chunk.repeat(5);
+  const text = chunk.repeat(5);
   return (
     <div className="ticker-rail" aria-hidden>
       <div className="ticker-track"><span>{text}</span><span>{text}</span></div>
@@ -470,14 +470,14 @@ const SEED_IDS = COMMUNITY_TWEET_URLS
 const PAGE_SIZE = 15;
 
 export default function PretextWallPage() {
-  const [modalOpen,    setModalOpen]    = useState(false);
-  const [currentPage,  setCurrentPage]  = useState(1);
-  const heroRef                         = useRef<HTMLDivElement>(null);
-  const [heroW,    setHeroW]            = useState(0);
-  const [pullW,    setPullW]            = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [heroW, setHeroW] = useState(0);
+  const [pullW, setPullW] = useState(0);
 
-  const totalPages  = Math.max(1, Math.ceil(SEED_IDS.length / PAGE_SIZE));
-  const pagedIds    = SEED_IDS.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(SEED_IDS.length / PAGE_SIZE));
+  const pagedIds = SEED_IDS.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   const goToPage = (p: number) => {
     const clamped = Math.max(1, Math.min(p, totalPages));
