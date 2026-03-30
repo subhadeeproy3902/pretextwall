@@ -19,6 +19,7 @@ export const COMMUNITY_TWEET_URLS: readonly string[] = [
   "https://x.com/eduardo_sonnino/status/2038574988194902472",
   "https://x.com/solarise_webdev/status/2038330971397697895",
   // ← BOT_INJECT_ANCHOR (do not remove)
+  "https://x.com/singular_prism/status/2038202011578155456",
 ];
 
 // ── GitHub PR config ─────────────────────────────────────────────────────────
