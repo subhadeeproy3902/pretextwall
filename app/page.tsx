@@ -948,7 +948,7 @@ body{background:var(--ink);font-family:'Old Standard TT',serif;-webkit-font-smoo
 .sidebar-link:hover{text-decoration:underline}
 .api-snippet{
   font-family:'DM Mono',monospace;font-size:.65rem;line-height:1.7;
-  color:var(--paper);background:var(--ink);
+  color:var(--paper);background:var(--paper-dark);
   padding:.7rem .8rem;border-radius:3px;white-space:pre;overflow-x:auto;
 }
 .counter-wrap{display:flex;align-items:baseline;justify-content:center;gap:.35rem;margin:.5rem 0}
@@ -1216,54 +1216,163 @@ body{background:var(--ink);font-family:'Old Standard TT',serif;-webkit-font-smoo
 .success-body{font-size:.8rem;line-height:1.65;color:var(--ink-mid);max-width:360px}
 .success-body code{font-family:'DM Mono',monospace;font-size:.8em;background:var(--paper-dark);padding:.1em .35em}
 
-/* ── MagicTweet newspaper skin ─────────────────────────────────────────── */
-.magic-tweet-wrap{
+/* ── Newspaper Tweet Card ───────────────────────────────────────────────── */
+.magic-tweet-wrap{width:100%}
+
+/* the card itself */
+.nwp-tweet-card{
   width:100%;
   background:var(--paper-dark);
   border:1px solid var(--border);
-  border-radius:0;
+  border-top:3px solid var(--border-dark);
+  display:flex;flex-direction:column;gap:0;
+  overflow:hidden;
+  transition:box-shadow .18s,transform .12s;
+}
+.nwp-tweet-card:hover{
+  box-shadow:4px 4px 0 var(--border-dark);
+  transform:translate(-2px,-2px);
+}
+
+/* ── header ── */
+.nwp-tweet-header{
+  display:flex;align-items:flex-start;gap:.65rem;
+  padding:.85rem .9rem .55rem;
+  border-bottom:1px solid var(--border);
+}
+.nwp-tweet-avatar-link{flex-shrink:0}
+.nwp-tweet-avatar{
+  width:42px;height:42px;border-radius:50%;
+  border:1.5px solid var(--border-dark);
+  object-fit:cover;display:block;
+}
+.nwp-tweet-user{
+  display:flex;flex-direction:column;gap:.1rem;flex:1;min-width:0;
+}
+.nwp-tweet-name{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-family:'Playfair Display',serif;font-weight:700;font-size:.82rem;
+  color:var(--ink);text-decoration:none;line-height:1.2;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nwp-tweet-name:hover{color:var(--terra)}
+.nwp-tweet-verified{width:13px;height:13px;color:#1d9bf0;flex-shrink:0}
+.nwp-tweet-handle{
+  font-family:'Special Elite',monospace;font-size:.65rem;
+  color:var(--ink-soft);text-decoration:none;letter-spacing:.02em;
+}
+.nwp-tweet-handle:hover{color:var(--terra)}
+.nwp-tweet-xlink{
+  flex-shrink:0;margin-left:auto;
+  color:var(--ink-soft);text-decoration:none;
+  display:flex;align-items:center;padding:.1rem;
+  transition:color .13s,transform .13s;
+}
+.nwp-tweet-xlink:hover{color:var(--ink);transform:scale(1.15)}
+.nwp-tweet-xicon{width:15px;height:15px}
+
+/* ── body ── */
+.nwp-tweet-body{
+  padding:.7rem .9rem .6rem;
+  font-family:'Old Standard TT',serif;
+  font-size:.82rem;line-height:1.7;
+  color:var(--ink-mid);
+  word-break:break-word;
+}
+.nwp-tweet-text{color:var(--ink-mid)}
+.nwp-tweet-link{
+  color:var(--terra);text-decoration:none;word-break:break-all;
+}
+.nwp-tweet-link:hover{text-decoration:underline}
+
+/* ── media ── */
+.nwp-tweet-media{
+  margin:0 .9rem .65rem;
+  border:1px solid var(--border);
   overflow:hidden;
 }
-.magic-tweet{
-  background:var(--paper-dark) !important;
-  border:none !important;
-  border-radius:0 !important;
-  color:var(--ink) !important;
-  font-family:'Old Standard TT',serif !important;
-  max-width:100% !important;
-  width:100% !important;
+.nwp-tweet-video{width:100%;display:block;max-height:240px;object-fit:cover}
+.nwp-tweet-photos{display:flex;flex-direction:column;gap:2px}
+.nwp-tweet-photos-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.nwp-tweet-photo{width:100%;height:160px;object-fit:cover;display:block}
+
+/* ── footer ── */
+.nwp-tweet-footer{
+  border-top:1px solid var(--border);
+  padding:.5rem .9rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  background:var(--paper);
 }
-/* header: name + handle */
-.magic-tweet a{
-  color:var(--ink) !important;
-  text-decoration:none;
+.nwp-tweet-stats{
+  display:flex;align-items:center;gap:.9rem;
 }
-.magic-tweet a:hover{color:var(--terra) !important;}
-/* tweet body text */
-.magic-tweet [class*="text"]{
-  font-family:'Old Standard TT',serif;
-  color:var(--ink-mid) !important;
-  font-size:.82rem !important;
+.nwp-stat{
+  display:inline-flex;align-items:center;gap:.28rem;
+  font-family:'Special Elite',monospace;
+  font-size:.63rem;color:var(--ink-soft);
 }
-/* muted / handle */
-.magic-tweet [class*="muted"],[class*="foreground"]{
-  color:var(--ink-soft) !important;
+.nwp-stat-heart .nwp-stat-icon{color:#c0392b}
+.nwp-stat-icon{width:13px;height:13px;flex-shrink:0}
+.nwp-stat-num{font-variant-numeric:tabular-nums}
+
+.nwp-tweet-meta{
+  display:flex;align-items:center;gap:.65rem;
 }
-/* border inside card */
-.magic-tweet [class*="border"]{
-  border-color:var(--border) !important;
+.nwp-tweet-date{
+  font-family:'Special Elite',monospace;font-size:.58rem;
+  color:var(--ink-soft);letter-spacing:.04em;white-space:nowrap;
 }
-/* X icon in card */
-.magic-tweet svg{color:var(--ink-soft) !important}
-.magic-tweet svg:hover{color:var(--terra) !important}
-/* skeleton */
-.magic-tweet-skeleton{
-  background:var(--paper-dark) !important;
-  border:1px solid var(--border) !important;
-  border-radius:0 !important;
-  min-height:120px;
+.nwp-tweet-visit{
+  display:inline-flex;align-items:center;gap:.25rem;
+  font-family:'Special Elite',monospace;font-size:.6rem;
+  color:var(--ink-mid);text-decoration:none;letter-spacing:.04em;
+  border:1px solid var(--border-dark);padding:.2rem .45rem;
+  transition:background .13s,color .13s;white-space:nowrap;
 }
-/* error */
+.nwp-tweet-visit:hover{background:var(--ink);color:var(--paper)}
+.nwp-visit-icon{width:10px;height:10px;flex-shrink:0}
+
+/* ── skeleton ── */
+.nwp-tweet-skeleton{
+  background:var(--paper-dark);border:1px solid var(--border);
+  border-top:3px solid var(--border);
+  padding:.85rem .9rem;
+  display:flex;flex-direction:column;gap:.6rem;
+  min-height:140px;
+}
+.nwp-sk-header{display:flex;gap:.65rem;align-items:flex-start}
+.nwp-sk-avatar{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);
+  background-size:200% 100%;animation:nwp-shimmer 1.4s infinite;
+}
+.nwp-sk-names{display:flex;flex-direction:column;gap:.35rem;flex:1}
+.nwp-sk-line{
+  border-radius:2px;
+  background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);
+  background-size:200% 100%;animation:nwp-shimmer 1.4s infinite;
+  height:.75rem;
+}
+.nwp-sk-name{width:55%}
+.nwp-sk-handle{width:35%}
+.nwp-sk-body1{width:100%}
+.nwp-sk-body2{width:90%}
+.nwp-sk-body3{width:70%}
+@keyframes nwp-shimmer{to{background-position:-200% 0}}
+
+/* ── not found ── */
+.nwp-tweet-notfound{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100px;gap:.4rem;background:var(--paper-dark);
+  border:1px solid var(--border);padding:1rem;
+}
+.nwp-tweet-notfound-icon{font-size:1.2rem;color:var(--ink-soft);opacity:.4}
+.nwp-tweet-notfound-text{
+  font-family:'Special Elite',monospace;font-size:.65rem;
+  color:var(--ink-soft);letter-spacing:.08em;
+}
+
+/* error state */
 .magic-tweet-error{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   min-height:100px;gap:.4rem;
