@@ -174,9 +174,9 @@ export const TweetMedia = ({ tweet }: { tweet: EnrichedTweet }) => {
       )}
       {tweet.photos && (
         <div className={cn("tw-photos", tweet.photos.length > 1 && "tw-photos-grid")}>
-          {tweet.photos.map((photo) => (
+          {tweet.photos.map((photo, i) => (
             <Image
-              key={photo.url}
+              key={i}
               src={photo.url}
               width={photo.width}
               height={photo.height}

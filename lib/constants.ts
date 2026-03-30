@@ -1,25 +1,20 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// constants.ts  ·  PretextWall  ·  owned by @subhadeeproy3902 / @mvp_Subha
-//
-// HOW THIS FILE IS MANAGED:
-//   When a visitor submits a tweet via the site, the client:
-//   1. Reads this file via GitHub Contents API
-//   2. Creates branch  add-tweet-<timestamp>
-//   3. Injects the URL right after BOT_INJECT_ANCHOR below
-//   4. Commits + opens a PR to main
-//   Merge the PR → tweet goes live on the wall.
-//
-// ⚠️  Do NOT rename COMMUNITY_TWEET_URLS — the bot depends on the exact name.
-// ⚠️  Do NOT remove the BOT_INJECT_ANCHOR comment — it is the insertion point.
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const COMMUNITY_TWEET_URLS: readonly string[] = [
   "https://x.com/jaymehoffman/status/2038667078136115487",
   "https://x.com/Riyvir/status/2038093450139279426",
   "https://x.com/eduardo_sonnino/status/2038574988194902472",
   "https://x.com/solarise_webdev/status/2038330971397697895",
-  // ← BOT_INJECT_ANCHOR (do not remove)
   "https://x.com/singular_prism/status/2038202011578155456",
+  "https://x.com/wesbos/status/2038644057363062929",
+  "https://x.com/EsotericCofe/status/2038076140661932273",
+  "https://x.com/linguinelabs/status/2038178971855262062",
+  "https://x.com/mhauken/status/2038333454526320789",
+  "https://x.com/stevibe/status/2038183722118426997",
+  "https://x.com/mhauken/status/2038333454526320789",
+  "https://x.com/Wattenberger/status/2038696298539561136",
+  "https://x.com/ann_nnng/status/2038583604834603514",
+  "https://x.com/lottabydesign/status/2038624692517343369",
+  "https://x.com/_chenglou/status/2037713766205608234",
+  "https://x.com/birdabo/status/2038219452337074677"
 ];
 
 // ── GitHub PR config ─────────────────────────────────────────────────────────
