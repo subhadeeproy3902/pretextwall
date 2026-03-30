@@ -51,32 +51,9 @@ function extractTweetId(url: string): string | null {
 // always fills its container in exactly 1 line — zero DOM reflow.
 // ─────────────────────────────────────────────────────────────────────────────
 function MeasuredMasthead({ text, containerRef }: MeasuredMastheadProps) {
-  const [fontSize, setFontSize] = useState(80);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const width = el.getBoundingClientRect().width - 48; // 24px padding each side
-    if (width <= 0) return;
-
-    let lo = 28, hi = 140, best = lo;
-    while (lo <= hi) {
-      const mid = Math.floor((lo + hi) / 2);
-      const font = `700 ${mid}px "Cinzel Decorative", serif`;
-      const prep: PreparedText = prepare(text, font);
-      const { lineCount } = layout(prep, width, mid * 1.1);
-      if (lineCount <= 1) { best = mid; lo = mid + 1; }
-      else { hi = mid - 1; }
-    }
-    setFontSize(best);
-    setReady(true);
-  }, [text, containerRef]);
-
   return (
     <h1
-      className="masthead-title"
-      style={{ fontSize: `${fontSize}px`, opacity: ready ? 1 : 0 }}
+      className="masthead-title text-5xl sm:text-6xl md:text-7xl lg:text-9xl"
     >
       {text}
     </h1>

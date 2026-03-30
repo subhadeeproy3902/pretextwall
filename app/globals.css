@@ -67,8 +67,6 @@ body{background:var(--ink);font-family:'Old Standard TT',serif;-webkit-font-smoo
   text-transform:uppercase;
   white-space:nowrap;
   overflow:visible;
-  transition:opacity .35s ease;
-  animation:fadeIn .6s ease both;
 }
 .masthead-sub{
   font-family:'Playfair Display',serif;
