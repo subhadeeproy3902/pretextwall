@@ -17,7 +17,7 @@ const APP_URL = "https://pretextwall.netlify.app";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "PretextWall — The Community Tweet Wall",
+    default: "PretextWall — Discover & Share Community Tweets",
     template: "%s | PretextWall",
   },
   description:
@@ -36,26 +36,17 @@ export const metadata: Metadata = {
     type: "website",
     url: APP_URL,
     siteName: "PretextWall",
-    title: "PretextWall — The Community Tweet Wall",
+    title: "PretextWall — Discover & Share Community Tweets",
     description:
       "A living wall of community tweets. Discover what people are building, thinking, and sharing — and add your own.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "PretextWall — The Community Tweet Wall",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@mvp_Subha",
     creator: "@mvp_Subha",
-    title: "PretextWall — The Community Tweet Wall",
+    title: "PretextWall — Discover & Share Community Tweets",
     description:
       "A living wall of community tweets. Discover what people are building, thinking, and sharing — and add your own.",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
