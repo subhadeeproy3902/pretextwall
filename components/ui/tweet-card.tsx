@@ -166,8 +166,8 @@ export const TweetMedia = ({ tweet }: { tweet: EnrichedTweet }) => {
         >
           {tweet.video.variants
             .filter((v) => v.type === "video/mp4")
-            .map((v) => (
-              <source key={v.src} src={v.src} type="video/mp4" />
+            .map((v, i) => (
+              <source key={i} src={v.src} type="video/mp4" />
             ))}
           Your browser does not support the video tag.
         </video>

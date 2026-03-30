@@ -673,8 +673,8 @@ const { height, lineCount }
                   ["②", "Pull-quote is shrink-wrapped with prepareWithSegments() + walkLineRanges()"],
                   ["③", "Counter pre-sizes to final digit width — no layout shift on tick"],
                   ["④", "Submit button label is pre-measured so it never reflows mid-animation"],
-                ].map(([num, desc]) => (
-                  <div key={num} className="meta-item-box">
+                ].map(([num, desc], i) => (
+                  <div key={i} className="meta-item-box">
                     <span className="meta-num">{num}</span>
                     <p className="meta-desc">{desc}</p>
                   </div>
