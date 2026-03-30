@@ -14,7 +14,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const COMMUNITY_TWEET_URLS: readonly string[] = [
-  "https://x.com/birdabo/status/2038219452337074677"
+  "https://x.com/jaymehoffman/status/2038667078136115487",
+  "https://x.com/Riyvir/status/2038093450139279426"
 ];
 
 // ── GitHub PR config ─────────────────────────────────────────────────────────
