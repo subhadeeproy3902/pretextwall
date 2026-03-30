@@ -157,7 +157,8 @@ export const TweetMedia = ({ tweet }: { tweet: EnrichedTweet }) => {
       {tweet.video && (
         <video
           poster={tweet.video.poster}
-          controls
+          autoPlay
+          loop
           muted
           playsInline
           className="tw-video"
