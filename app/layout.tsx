@@ -32,22 +32,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Subhadeep Roy", url: "https://x.com/mvp_Subha" }],
   creator: "Subhadeep Roy",
-  openGraph: {
-    type: "website",
-    url: APP_URL,
-    siteName: "PretextWall",
-    title: "PretextWall — Discover & Share Community Tweets",
-    description:
-      "A living wall of community tweets. Discover what people are building, thinking, and sharing — and add your own.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@mvp_Subha",
-    creator: "@mvp_Subha",
-    title: "PretextWall — Discover & Share Community Tweets",
-    description:
-      "A living wall of community tweets. Discover what people are building, thinking, and sharing — and add your own.",
-  },
   robots: {
     index: true,
     follow: true,
