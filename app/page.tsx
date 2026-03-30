@@ -256,7 +256,7 @@ async function submitViaGitHubPR(tweetUrl: string): Promise<void> {
   const OWNER = "subhadeeproy3902";
   const REPO = process.env.NEXT_PUBLIC_GITHUB_REPO ?? "pretextwall";
   const FILE = "lib/constants.ts";
-  const BASE = "main";
+  const BASE = "master";
   const ANCHOR = "// ← BOT_INJECT_ANCHOR (do not remove)";
 
   const h: HeadersInit = {
