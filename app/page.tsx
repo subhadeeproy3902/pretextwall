@@ -265,44 +265,27 @@ async function submitViaGitHubPR(tweetUrl: string): Promise<void> {
     "Content-Type": "application/json",
   };
 
-  const fileRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, { headers: h });
+  const fileRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${BASE}`, { headers: h });
   if (!fileRes.ok) throw new Error("Cannot read constants.ts");
   const fileData = await fileRes.json() as { content: string; sha: string };
-  const current = atob(fileData.content.replace(/\n/g, ""));
+  // atob only handles Latin-1 — use TextDecoder for proper UTF-8 (the anchor has ← U+2190)
+  const raw = atob(fileData.content.replace(/\n/g, ""));
+  const current = new TextDecoder().decode(Uint8Array.from(raw, c => c.charCodeAt(0)));
   if (!current.includes(ANCHOR)) throw new Error("BOT_INJECT_ANCHOR not found");
 
   const updated = current.replace(ANCHOR, `${ANCHOR}\n  "${tweetUrl}",`);
 
-  const refRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/ref/heads/${BASE}`, { headers: h });
-  if (!refRes.ok) throw new Error("Cannot get base ref");
-  const baseSha = (await refRes.json() as { object: { sha: string } }).object.sha;
-
-  const branch = `add-tweet-${Date.now()}`;
-  const brRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/refs`, {
-    method: "POST", headers: h,
-    body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: baseSha }),
-  });
-  if (!brRes.ok) throw new Error("Cannot create branch");
-
+  // Commit directly to master — no branch/PR needed
   const comRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
     method: "PUT", headers: h,
     body: JSON.stringify({
       message: `feat: add community tweet\n\n${tweetUrl}`,
       content: btoa(unescape(encodeURIComponent(updated))),
-      sha: fileData.sha, branch,
+      sha: fileData.sha,
+      branch: BASE,
     }),
   });
   if (!comRes.ok) throw new Error("Cannot commit updated file");
-
-  const prRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/pulls`, {
-    method: "POST", headers: h,
-    body: JSON.stringify({
-      title: "feat: add community tweet to wall",
-      head: branch, base: BASE,
-      body: `## Community Tweet\n\n**URL:** ${tweetUrl}\n\nSubmitted via PretextWall · @mvp_Subha`,
-    }),
-  });
-  if (!prRes.ok) throw new Error("Cannot open PR");
 }
 
 // ─── Submit Modal ─────────────────────────────────────────────────────────────

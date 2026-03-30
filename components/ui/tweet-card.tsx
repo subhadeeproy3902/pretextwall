@@ -161,12 +161,11 @@ export const TweetMedia = ({ tweet }: { tweet: EnrichedTweet }) => {
           loop
           muted
           playsInline
+          preload="none"
           className="tw-video"
         >
           {tweet.video.variants
             .filter((v) => v.type === "video/mp4")
-            .sort((a, b) => (b.src.includes("2176x") ? 1 : 0) - (a.src.includes("2176x") ? 1 : 0))
-            .slice(0, 1)
             .map((v) => (
               <source key={v.src} src={v.src} type="video/mp4" />
             ))}

@@ -313,8 +313,17 @@ body{background:var(--ink);font-family:'Old Standard TT',serif;-webkit-font-smoo
 }
 .tw-handle:hover{color:var(--terra)}
 .tw-verified{width:14px;height:14px;color:#1d9bf0;flex-shrink:0}
+.tw-header-actions{
+  display:flex;align-items:center;gap:.35rem;margin-left:auto;flex-shrink:0;
+}
+.tw-maximize-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--ink-soft);padding:.15rem;line-height:0;
+  transition:color .13s;
+}
+.tw-maximize-btn:hover{color:var(--ink)}
 .tw-x-link{
-  margin-left:auto;flex-shrink:0;color:var(--ink-soft);
+  color:var(--ink-soft);
   display:flex;align-items:center;transition:color .13s;
 }
 .tw-x-link:hover{color:var(--ink)}
@@ -388,6 +397,31 @@ body{background:var(--ink);font-family:'Old Standard TT',serif;-webkit-font-smoo
   animation:skPulse 1.4s ease-in-out infinite;
 }
 @keyframes skPulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* Tweet expand modal */
+.tw-modal-backdrop{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(28,23,20,.78);
+  backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+  animation:backdropIn .18s ease;
+}
+.tw-modal-inner{
+  position:relative;
+  width:100%;max-width:560px;
+  max-height:90vh;overflow-y:auto;
+  animation:panelIn .22s cubic-bezier(.34,1.4,.64,1) both;
+}
+.tw-modal-close{
+  position:absolute;top:-2rem;right:0;
+  background:none;border:none;
+  color:var(--paper);font-size:1rem;cursor:pointer;
+  font-family:'Special Elite',monospace;
+  transition:color .13s;z-index:1;
+}
+.tw-modal-close:hover{color:var(--terra-bg)}
+.tw-modal-card{font-size:1rem}
 
 .wall-cta-wrap{text-align:center;padding:1rem 0}
 .wall-cta-hed{
