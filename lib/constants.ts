@@ -17,6 +17,7 @@ export const COMMUNITY_TWEET_URLS: readonly string[] = [
   "https://x.com/_chenglou/status/2037713766205608234",
   "https://x.com/birdabo/status/2038219452337074677",
   // ← BOT_INJECT_ANCHOR (do not remove)
+  "https://x.com/RazberryChai/status/2038309448679321727",
   "https://x.com/alexanderchen/status/2038727366734987763",
   "https://x.com/dushankas/status/2038208163019665860",
   "https://x.com/pablostanley/status/2038280048503820492",
