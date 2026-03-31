@@ -6,6 +6,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+::selection{background:var(--terra);color:var(--paper)}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
