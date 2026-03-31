@@ -242,26 +242,46 @@ async function submitViaGitHubPR(tweetUrl: string): Promise<void> {
     "Content-Type": "application/json",
   };
 
-  const fileRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${BASE}`, { headers: h });
-  if (!fileRes.ok) throw new Error("Cannot read constants.ts");
-  const fileData = await fileRes.json() as { content: string; sha: string };
-  // atob only handles Latin-1 — use TextDecoder for proper UTF-8 (the anchor has ← U+2190)
-  const raw = atob(fileData.content.replace(/\n/g, ""));
-  const current = new TextDecoder().decode(Uint8Array.from(raw, c => c.charCodeAt(0)));
+  async function fetchFile() {
+    const res = await fetch(
+      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${BASE}&_=${Date.now()}`,
+      { headers: h, cache: "no-store" }
+    );
+    if (!res.ok) throw new Error("Cannot read constants.ts");
+    const data = await res.json() as { content: string; sha: string };
+    const raw = atob(data.content.replace(/\n/g, ""));
+    const text = new TextDecoder().decode(Uint8Array.from(raw, c => c.charCodeAt(0)));
+    return { text, sha: data.sha };
+  }
+
+  let { text: current, sha } = await fetchFile();
   if (!current.includes(ANCHOR)) throw new Error("BOT_INJECT_ANCHOR not found");
+  if (current.includes(`"${tweetUrl}"`)) throw new Error("This tweet is already on the wall");
 
   const updated = current.replace(ANCHOR, `${ANCHOR}\n  "${tweetUrl}",`);
 
-  // Commit directly to master — no branch/PR needed
-  const comRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
-    method: "PUT", headers: h,
-    body: JSON.stringify({
-      message: `feat: add community tweet\n\n${tweetUrl}`,
-      content: btoa(unescape(encodeURIComponent(updated))),
-      sha: fileData.sha,
-      branch: BASE,
-    }),
-  });
+  // Commit directly to master — no branch/PR needed; retry once on SHA conflict
+  async function tryCommit(fileSha: string, content: string) {
+    return fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+      method: "PUT", headers: h,
+      body: JSON.stringify({
+        message: `feat: add community tweet\n\n${tweetUrl}`,
+        content: btoa(unescape(encodeURIComponent(content))),
+        sha: fileSha,
+        branch: BASE,
+      }),
+    });
+  }
+
+  let comRes = await tryCommit(sha, updated);
+  if (!comRes.ok) {
+    // SHA may be stale — re-fetch and retry once
+    const refreshed = await fetchFile();
+    if (!refreshed.text.includes(ANCHOR)) throw new Error("BOT_INJECT_ANCHOR not found");
+    if (refreshed.text.includes(`"${tweetUrl}"`)) throw new Error("This tweet is already on the wall");
+    const updatedRetry = refreshed.text.replace(ANCHOR, `${ANCHOR}\n  "${tweetUrl}",`);
+    comRes = await tryCommit(refreshed.sha, updatedRetry);
+  }
   if (!comRes.ok) throw new Error("Cannot commit updated file");
 }
 
