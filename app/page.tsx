@@ -427,7 +427,7 @@ const SEED_IDS = COMMUNITY_TWEET_URLS
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN PAGE
 // ─────────────────────────────────────────────────────────────────────────────
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 30;
 
 export default function PretextWallPage() {
   const [modalOpen, setModalOpen] = useState(false);
