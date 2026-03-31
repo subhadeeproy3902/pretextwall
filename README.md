@@ -3,7 +3,7 @@
 **The Community Tweet Wall** — a curated, newspaper-style wall of tweets from the community.  
 Live at **[pretextwall.netlify.app](https://pretextwall.mvp-subha.me)**
 
-![OG Preview](./app/opengraph-image.webp)
+![OG Preview](./public/og.png)
 > The Open Graph preview image is auto-generated via Next.js App Router's built-in `opengraph-image.tsx` convention at [`app/opengraph-image.tsx`](app/opengraph-image.tsx). It renders server-side on the Edge and is served at `/opengraph-image` — no manual image file needed.
 
 ---
